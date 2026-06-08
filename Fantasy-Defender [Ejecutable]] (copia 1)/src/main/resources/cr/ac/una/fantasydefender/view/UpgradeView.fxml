@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.fantasydefender.controller.UpgradeController">
+   <children>
+      <Pane prefHeight="480.0" prefWidth="640.0" styleClass="jfx-upgradeViewBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" />
+         </children>
+      </Pane>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <HBox prefHeight="472.0" prefWidth="510.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="283.0" prefWidth="126.0">
+                     <children>
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="100.0" styleClass="jfx-hoverGlow">
+                           <VBox.margin>
+                              <Insets left="12.0" top="22.0" />
+                           </VBox.margin>
+                           <children>
+                              <Pane fx:id="healthHover" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="80.0" prefWidth="80.0" />
+                              <VBox fx:id="healthSprite" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseReleased="#onMouseReleasedHealth" prefHeight="80.0" prefWidth="80.0" styleClass="jfx-healthSprite" />
+                           </children>
+                        </StackPane>
+                        <Text fx:id="txtHealth" fill="#f83333" strokeType="OUTSIDE" strokeWidth="0.0" text="Health lvl.1 (↑10pts.)">
+                           <VBox.margin>
+                              <Insets top="12.0" />
+                           </VBox.margin>
+                        </Text>
+                        <StackPane prefHeight="100.0" prefWidth="100.0" styleClass="jfx-hoverGlow">
+                           <VBox.margin>
+                              <Insets left="14.0" right="17.0" top="11.0" />
+                           </VBox.margin>
+                           <children>
+                              <Pane fx:id="elixirHover" maxWidth="-Infinity" prefHeight="100.0" prefWidth="100.0">
+                                 <StackPane.margin>
+                                    <Insets />
+                                 </StackPane.margin>
+                              </Pane>
+                              <VBox fx:id="elixirSprite" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseReleased="#onMouseReleasedElixir" prefHeight="80.0" prefWidth="65.0" styleClass="jfx-elixirSprite" />
+                           </children>
+                        </StackPane>
+                        <Text fx:id="txtElixir" fill="#002fff" strokeType="OUTSIDE" strokeWidth="0.0" text="Elixir lvl.1 (↑10pts.)">
+                           <VBox.margin>
+                              <Insets left="17.0" top="11.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox layoutX="141.0" layoutY="156.0" prefHeight="317.0" prefWidth="125.0">
+                     <children>
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="80.0" prefWidth="94.0" styleClass="jfx-hoverGlow">
+                           <VBox.margin>
+                              <Insets left="16.0" top="21.0" />
+                           </VBox.margin>
+                           <children>
+                              <Pane fx:id="speedHover" maxWidth="-Infinity" minHeight="100.0" prefWidth="100.0" />
+                              <VBox fx:id="speedSprite" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseReleased="#onMouseReleasedSpeed" prefHeight="80.0" prefWidth="80.0" styleClass="jfx-ballistaSprite" />
+                           </children>
+                        </StackPane>
+                        <Text fx:id="txtSpeed" fill="#0081ac" strokeType="OUTSIDE" strokeWidth="0.0" text="Speed lvl.1 (↑10pts.)">
+                           <VBox.margin>
+                              <Insets top="11.0" />
+                           </VBox.margin>
+                        </Text>
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="99.0" prefWidth="93.0" styleClass="jfx-hoverGlow">
+                           <VBox.margin>
+                              <Insets left="16.0" top="14.0" />
+                           </VBox.margin>
+                           <children>
+                              <Pane fx:id="damageHover" maxWidth="-Infinity" minHeight="100.0" prefWidth="100.0" />
+                              <VBox fx:id="damageSprite" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseReleased="#onMouseReleasedDamage" prefHeight="80.0" prefWidth="80.0" styleClass="jfx-arrowSprite" />
+                           </children>
+                        </StackPane>
+                        <Text fx:id="txtDamage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Damage lvl.1 (↑10pts.)">
+                           <VBox.margin>
+                              <Insets left="7.0" top="9.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="67.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox layoutX="395.0" layoutY="146.0" prefHeight="310.0" prefWidth="125.0">
+                     <children>
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="93.0" styleClass="jfx-hoverGlow">
+                           <VBox.margin>
+                              <Insets left="16.0" top="21.0" />
+                           </VBox.margin>
+                           <children>
+                              <Pane fx:id="meteorHover" maxWidth="-Infinity" prefHeight="99.0" prefWidth="88.0" />
+                              <VBox fx:id="meteorSprite" maxHeight="-Infinity" maxWidth="-Infinity" onMouseReleased="#onMouseReleasedMeteor" prefHeight="80.0" prefWidth="80.0" styleClass="jfx-meteorSprite">
+                                 <children>
+                                    <Pane fx:id="meteorHover" prefHeight="98.0" prefWidth="89.0">
+                                       <children>
+                                          <ImageView fitHeight="98.0" fitWidth="88.0" pickOnBounds="true" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                        <Text fx:id="txtMeteor" fill="#775203" strokeType="OUTSIDE" strokeWidth="0.0" text="Meteor lvl.1 (↑10pts.)">
+                           <VBox.margin>
+                              <Insets top="7.0" />
+                           </VBox.margin>
+                        </Text>
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="93.0" styleClass="jfx-hoverGlow">
+                           <VBox.margin>
+                              <Insets left="16.0" top="18.0" />
+                           </VBox.margin>
+                           <children>
+                              <Pane fx:id="frostHover" prefHeight="100.0" prefWidth="100.0" />
+                              <VBox fx:id="frostSprite" maxHeight="-Infinity" maxWidth="-Infinity" onMouseReleased="#onMouseReleasedFrost" prefHeight="80.0" prefWidth="80.0" styleClass="jfx-frostSprite" />
+                           </children>
+                        </StackPane>
+                        <Text fx:id="txtFrost" fill="#0782a1" strokeType="OUTSIDE" strokeWidth="0.0" text="Frost lvl.1 (↑10pts.)">
+                           <VBox.margin>
+                              <Insets left="12.0" top="7.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="68.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="73.0" left="65.0" right="63.0" top="109.0" />
+               </BorderPane.margin>
+            </HBox>
+         </center>
+      </BorderPane>
+      <Pane prefHeight="36.0" prefWidth="161.0" styleClass="jfx-textBanner" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="12.0">
+         <children>
+            <Text fx:id="txtPoints" layoutX="22.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100 Pts. --&gt; 100pts." />
+         </children>
+      </Pane>
+      <Pane fx:id="cancelButton" onMouseReleased="#onMouseReleasedCancel" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-cbCancelButton" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="10.0" />
+      <Pane fx:id="acceptButton" layoutX="639.0" layoutY="15.0" onMouseReleased="#onMouseReleasedAccept" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-cbAcceptButton" AnchorPane.leftAnchor="465.0" AnchorPane.topAnchor="10.0" />
+      <Pane fx:id="leaveButton" layoutX="87.0" layoutY="419.0" onMouseReleased="#onMouseReleasedLeave" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-cBLeave" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="420.0" />
+   </children>
+</AnchorPane>

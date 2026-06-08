@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="480.0" prefWidth="850.0" styleClass="jfx-field-game-background" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.fantasydefender.controller.GameController">
+   <children>
+      <BorderPane fx:id="childProjector" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="480.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
+         </center>
+         <left>
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="105.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="105.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+      <Canvas fx:id="gameCanvas" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="850.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="lblWaveNumber" alignment="CENTER" prefHeight="22.0" prefWidth="420.0" styleClass="jfx-title-label-3" text="WaveNumber" />
+            <MFXButton fx:id="pauseButton" onAction="#onActionPauseButton" prefHeight="34.0" prefWidth="100.0" styleClass="jfx-cBPause" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

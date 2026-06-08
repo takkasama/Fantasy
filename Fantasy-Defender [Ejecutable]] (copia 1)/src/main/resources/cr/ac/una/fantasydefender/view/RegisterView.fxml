@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="root" prefHeight="600.0" prefWidth="800.0" styleClass="jfx-childBackground3" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.fantasydefender.controller.RegisterController">
+
+    <children>
+
+        <VBox alignment="CENTER" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <padding>
+                <Insets bottom="30" left="40" right="40" top="30" />
+            </padding>
+
+            <Label styleClass="jfx-title-label" text="Register Player">
+            <VBox.margin>
+               <Insets top="40.0" />
+            </VBox.margin></Label>
+
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="18.0">
+
+                <MFXTextField fx:id="txtPlayerName" floatingText="Player Name" maxWidth="1.7976931348623157E308" prefHeight="50.0" styleClass="jfx-mfx-text-field" />
+
+                <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+
+                    <MFXTextField fx:id="txtEmail" floatingText="Email" maxWidth="1.7976931348623157E308" prefHeight="50.0" styleClass="jfx-mfx-text-field" HBox.hgrow="ALWAYS" />
+
+                    <MFXTextField fx:id="txtCode" floatingText="Code" onKeyPressed="#onKeyPressedTxtCode" prefHeight="50.0" prefWidth="90.0" styleClass="jfx-mfx-text-field" />
+
+                    <MFXButton fx:id="btnGetCode" onAction="#onActionGetCode" prefHeight="50.0" prefWidth="120.0" styleClass="jfx-cBGetCode" text="Get Code" />
+                </HBox>
+
+                <HBox alignment="CENTER" spacing="15.0">
+
+                    <MFXPasswordField fx:id="txtPassword" floatingText="Password" maxWidth="1.7976931348623157E308" prefHeight="50.0" styleClass="jfx-mfx-text-field" HBox.hgrow="ALWAYS" />
+
+                    <MFXPasswordField fx:id="txtConfirmPassword" floatingText="Confirm Password" maxWidth="1.7976931348623157E308" prefHeight="50.0" styleClass="jfx-mfx-text-field" HBox.hgrow="ALWAYS" />
+                </HBox>
+
+                <HBox alignment="CENTER" spacing="20.0">
+
+                    <MFXButton fx:id="btnRegister" onAction="#onActionBtnRegister" prefHeight="50.0" prefWidth="140.0" styleClass="jfx-cBRegister" text="Register" />
+
+                    <MFXButton fx:id="btnCancel" onAction="#onActionBtnCancel" prefHeight="50.0" prefWidth="140.0" styleClass="jfx-cbCancelButton" text="Cancel" />
+                </HBox>
+
+                <Label fx:id="lblRegisterState" alignment="CENTER" maxWidth="400.0" styleClass="status-label" text="" wrapText="true" />
+            <VBox.margin>
+               <Insets bottom="40.0" left="40.0" right="40.0" />
+            </VBox.margin>
+
+            </VBox>
+
+        </VBox>
+
+    </children>
+</AnchorPane>
