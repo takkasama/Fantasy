@@ -20,7 +20,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FlowController.getInstance().InitializeFlow(stage, null);
 
-        FlowController.getInstance().goMain("Main");
+        FlowController.getInstance().goMain();
     }
 
     static void setRoot(String fxml) throws IOException {

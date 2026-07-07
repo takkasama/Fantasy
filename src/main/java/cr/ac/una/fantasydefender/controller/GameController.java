@@ -20,8 +20,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -34,21 +36,24 @@ public class GameController extends Controller implements Initializable {
     @FXML
     private Canvas gameCanvas;
     @FXML
-    private BorderPane childProjector;
-    @FXML
-    private MFXButton pauseButton;    
-    @FXML
     private Label lblWaveNumber;
+    @FXML
+    private VBox vbPause;
+    @FXML
+    private MFXButton btnContinue;
+    @FXML
+    private MFXButton btnMenu;
+    @FXML
+    private MFXButton btnNextLevel;
+    @FXML
+    private MFXButton btnRetry;
+    @FXML
+    private MFXButton btnPause;
 
     private GameManager gameManager;
     private GameDTO game = (GameDTO)AppContext.getInstance().get("SelectedGame");
-    
     private GraphicsContext gc;
-    
     private boolean isGameStarted;
-
-
-
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -77,10 +82,8 @@ public class GameController extends Controller implements Initializable {
         setNombreVista("Fantasy Defender");
     }
 
-    @Override
     public void clean() {}    
 
-    @FXML
     private void onActionPauseButton(ActionEvent event) {
         game.setGameState(GameDTO.GameState.PAUSED);
     }
@@ -88,12 +91,7 @@ public class GameController extends Controller implements Initializable {
     private void load(){
         
         this.isGameStarted = false;
-        
-        childState = false;
-        
-        setChildBorderPane(childProjector);
-        pauseButton.setText("");
-        
+                
         this.gc  = gameCanvas.getGraphicsContext2D();
         this.gameManager = new GameManager(gameCanvas, gc, game);   
     }
@@ -150,19 +148,12 @@ public class GameController extends Controller implements Initializable {
                 FlowController.getInstance().goMain("GameMenu");
             }
             else  if(newValue == GameDTO.GameState.PAUSED){
-                if(!isChildState()){
-                    gameManager.pauseGame();
-                    FlowController.getInstance().goViewPane("PauseView",childProjector); 
-                    showChildView();
-                }
+      
             }
-            
 
-            
         });
         
     }
-    
     
     private void updateLabelWaves(){
         if(gameManager.getLevelGame() ==null) return;
@@ -173,8 +164,7 @@ public class GameController extends Controller implements Initializable {
         });
     }
 
-
-private void saveGame(){
+   private void saveGame(){
         try{
             GameService gameService = new GameService();
             Respuesta res = gameService.saveGame(game);
@@ -186,6 +176,72 @@ private void saveGame(){
             Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, "Error to save the save", ex);
             new Mensaje().showModal(Alert.AlertType.ERROR, "saveGame", getStage(), "An Error Occurred During Save the Game");
         }
+    }
+   
+   private void showPauseBox(){
+       vbPause.setManaged(true);
+       vbPause.setVisible(true);
+   }
+   
+   private void hidePauseBox(){
+       vbPause.setManaged(false);
+       vbPause.setVisible(false);
+   }
+   
+   private void loadPauseBox(){
+       
+       
+       if(game.getGameState() == GameDTO.GameState.PAUSED &&  game.getGameResult() == GameDTO.GameResult.NONE){
+           btnNextLevel.setManaged(false);
+       }
+        if(game.getGameState() == GameDTO.GameState.PAUSED && game.getGameResult() == GameDTO.GameResult.DEFEAT){
+            btnContinue.setManaged(false);
+            btnNextLevel.setManaged(false);
+        }
+        if(game.getGameState() == GameDTO.GameState.PAUSED && game.getGameResult() == GameDTO.GameResult.VICTORY){
+            btnContinue.setManaged(false);
+        }   
+   }
+
+    @FXML
+    private void onKeyPressedBtnContinue(KeyEvent event) {
+        if(event.getCode() == KeyCode.ESCAPE)
+            onActionBtnContinue(null);
+    }
+
+    @FXML
+    private void onActionBtnContinue(ActionEvent event) {
+        game.setGameState(GameDTO.GameState.ACTIVE);
+        hidePauseBox();
+    }
+
+    @FXML
+    private void onActionBtnMenu(ActionEvent event) {
+         game.setGameState(GameDTO.GameState.EXITING);
+         hidePauseBox();
+    }
+
+    @FXML
+    private void onActionBtnNextLevel(ActionEvent event) {
+        game.setGameState(GameDTO.GameState.NEXT_LEVEL);
+        hidePauseBox();
+    }
+
+    @FXML
+    private void onActionBtnRetry(ActionEvent event) {
+        game.setGameState(GameDTO.GameState.RESTARTED);
+        hidePauseBox();
+    }
+
+    @FXML
+    private void onKeyPressedBtnPause(KeyEvent event) {
+        if(event.getCode() == KeyCode.ESCAPE)
+            showPauseBox();
+    }
+
+    @FXML
+    private void onActionBtnPause(ActionEvent event) {
+        showPauseBox();
     }
     
 }

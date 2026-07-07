@@ -85,62 +85,36 @@ public class GameMenuController extends Controller implements Initializable {
 
     @FXML
     private void onActionCampaignButton(ActionEvent event) {
-        if(!isChildState()){
-            GameDTO game = campaignListView.getSelectionModel().getSelectedItem();
-            
-            if(game != null){
-                AppContext.getInstance().set("SelectedGame", game);
-                FlowController.getInstance().goMain("Game");
-            }
-            else
-                new Mensaje().showModal(Alert.AlertType.WARNING, "onActionCampaignButton", getStage(), "Please Selectec game or create a new Game");
-            
-        } 
+        
     }
 
     @FXML
     private void onActionSettingsButton(ActionEvent event) {
-        if(!isChildState()){
-                GameDTO game = campaignListView.getSelectionModel().getSelectedItem();
-
-                if(game != null)
-                    AppContext.getInstance().set("SelectedGame", game);     
-                
-            FlowController.getInstance().goViewPane("SettingsView",childProjector); 
-            showChildView();
-        } 
+         
     }
 
     @FXML
     private void onActionLeaveButton(ActionEvent event) {
         cleanView();
-        FlowController.getInstance().goMain("Main");
+        FlowController.getInstance().goMain();
     }
 
     @FXML
     private void onActionNewCampaignButton(ActionEvent event) {
-        FlowController.getInstance().goViewPane("MakeCampaignView", childProjector);
-        showChildView();
 
-        newGame = (GameDTO) AppContext.getInstance().get("NewGame");
-        if(newGame != null){
-            newGameProperty.set(null);
-            newGameProperty.set(newGame);
-        }
     }
     
 
     @FXML
     private void onActionUpgradeButton(ActionEvent event) {
-        if(!isChildState()){
-                GameDTO game = campaignListView.getSelectionModel().getSelectedItem();
-                if(game == null){
-                    new Mensaje().showModal(Alert.AlertType.WARNING, "upgradeButton", getStage(), "Please Select a game");
-                    return;
-                }
-               AppContext.getInstance().set("SelectedGame", game);
-               FlowController.getInstance().goViewPane("UpgradeView", childProjector);
-        }        
+//                GameDTO game = campaignListView.getSelectionModel().getSelectedItem();
+//                if(game == null){
+//                    new Mensaje().showModal(Alert.AlertType.WARNING, "upgradeButton", getStage(), "Please Select a game");
+//                    return;
+//                }
+//               AppContext.getInstance().set("SelectedGame", game);
+//               FlowController.getInstance().goViewPane("UpgradeView", childProjector);
+//        
     }
     
     
@@ -161,14 +135,6 @@ public class GameMenuController extends Controller implements Initializable {
     
 
     private void loadView(){
-        newCampaignButton.setText("");
-        campaignButton.setText("");
-        settingsButton.setText("");
-        leaveButton.setText("");
-        upgradeButton.setText("");
-        
-        childState = false;
-        setChildBorderPane(childProjector);
         
         this.player = (PlayerDTO)AppContext.getInstance().get("Player");
         

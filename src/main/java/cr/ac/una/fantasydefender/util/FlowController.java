@@ -1,10 +1,10 @@
 package cr.ac.una.fantasydefender.util;
 
 import cr.ac.una.fantasydefender.App;
-import java.util.logging.Level;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +19,6 @@ import cr.ac.una.fantasydefender.controller.Controller;
 import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
 import io.github.palexdev.materialfx.css.themes.Themes;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
 public class FlowController {
 
@@ -27,7 +26,6 @@ public class FlowController {
     private static Stage mainStage;
     private static ResourceBundle idioma;
     private static HashMap<String, FXMLLoader> loaders = new HashMap<>();
-    private Controller mainController;
 
     private FlowController() {
     }
@@ -124,7 +122,6 @@ public class FlowController {
             applyIcon(this.mainStage);
             MFXThemeManager.addOn(this.mainStage.getScene(), Themes.DEFAULT, Themes.LEGACY);
             this.mainStage.centerOnScreen();
-            this.mainController = controller;
             this.mainStage.show();
 
         } catch (IOException ex) {
@@ -167,47 +164,6 @@ public class FlowController {
                 break;
         }
     }
-    //this method is similar to the previous one, but it scans the AnchorPane root and finds the first VBox so it can project
-    //a child scene onto it
-    public void goViewPane(String viewName, BorderPane borderPane) {
-        //makes the view and it's controller
-        FXMLLoader loader = getLoader(viewName);
-        Controller controller = loader.getController();
-        controller.initialize();
-        
-        Stage stage = controller.getStage();
-        if (stage == null) {
-            stage = this.mainStage;
-            controller.setStage(stage);
-        }
-        
-        VBox vbox = null;
-        if(borderPane.getCenter() != null){//this part checks each part of the border pane for a vbox, grabs the first one it finds in order
-            vbox = (VBox) borderPane.getCenter();
-        }else if(borderPane.getLeft() != null){
-            vbox = (VBox) borderPane.getLeft();
-        }else if(borderPane.getRight() != null){
-            vbox = (VBox) borderPane.getRight();
-        }else if(borderPane.getTop() != null){
-            vbox = (VBox) borderPane.getTop();
-        }else if(borderPane.getBottom() != null){
-            vbox = (VBox) borderPane.getBottom();
-        }
-        
-        
-        if (vbox != null){//this bit grabs the vbox if it exists and sets it up, otherwise it tells you something is wrong
-            controller.setParent(mainController);
-            mainController.setChild(controller);
-            vbox.getChildren().clear();
-            vbox.getChildren().add(loader.getRoot());
-            //vbox.setFillWidth(false);
-            //vbox.setVgrow(loader.getRoot(), Priority.ALWAYS);
-            
-            borderPane.toFront();
-        }else{
-            System.out.println("could not find pane to project scene onto, needs to be a border pane with a vbox inside");
-        }
-    }
 
     public void goViewInStage(String viewName, Stage stage) {
         FXMLLoader loader = getLoader(viewName);
@@ -222,7 +178,7 @@ public class FlowController {
         Controller controller = loader.getController();
         controller.initialize();
         Stage stage = new Stage();
-        stage.getIcons().add(new Image(App.class.getResourceAsStream("/cr/ac/una/fantasydefender/resource/visuals/icon.png")));
+        //stage.getIcons().add(new Image(App.class.getResourceAsStream("Centerlogo.png")));
         stage.setTitle(controller.getNombreVista());
         stage.setOnHidden((WindowEvent event) -> {
             controller.getStage().getScene().setRoot(new Pane());
@@ -238,7 +194,6 @@ public class FlowController {
     }
 
     public void goViewInWindowModal(String viewName, Stage parentStage, Boolean resizable) {
-            System.out.println("ParentStage: " + parentStage);
         FXMLLoader loader = getLoader(viewName);
         Controller controller = loader.getController();
         controller.initialize();
@@ -261,19 +216,21 @@ public class FlowController {
         stage.showAndWait();
     }
     
-    public void goViewInPane(String viewName, Pane container, Controller parentContorller){
-	
-            FXMLLoader loader = getLoader(viewName);
-
-            Controller controller = loader.getController();	
+    public void goViewInPane(String viewName, Pane paneToVizualize ,Boolean isToClose){
+        FXMLLoader loader = getLoader(viewName);
+        Controller controller = loader.getController();
+        if(isToClose){
+            controller.getParent().getChildren().clear();
+            controller.setParent(null);
+        }
+        else{
+            controller.setParent(paneToVizualize);
             controller.initialize();
-                        
             Parent root = loader.getRoot();
-            controller.setParent(parentContorller);
-            
-            container.getChildren().clear();
-            container.getChildren().add(root);
-	
+            paneToVizualize.getChildren().clear();
+            paneToVizualize.getChildren().addAll(root);
+        }
+        
     }
  
     public Controller getController(String viewName) {
@@ -303,4 +260,5 @@ public class FlowController {
     public void salir() {
         this.mainStage.close();
     }
+  
 }

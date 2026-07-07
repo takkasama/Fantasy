@@ -1,91 +1,189 @@
 package cr.ac.una.fantasydefender.controller;
 
+import cr.ac.una.fantasydefender.model.PlayerDTO;
+import cr.ac.una.fantasydefender.util.AppContext;
 import cr.ac.una.fantasydefender.util.FlowController;
-import cr.ac.una.fantasydefender.util.Mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import cr.ac.una.fantasydefender.util.childViewInterface;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
  *
- * @author andys
+ * @author Takkasama
  */
-public class MainController extends Controller implements Initializable, childViewInterface {
-    private ImageView mainBackground;
+public class MainController extends Controller implements Initializable {
     @FXML
-    private VBox vBox;
+    private BorderPane root;
     @FXML
-    private AnchorPane root;
+    private MFXButton btnPlay;
     @FXML
-    private BorderPane childProjector;
+    private MFXButton btnSettins;
     @FXML
-    private MFXButton informationButton;
+    private MFXButton btnLogOut;
     @FXML
-    private MFXButton loginButton;
+    private MFXButton btnMoreAbout;
     @FXML
-    private MFXButton registerButton;
+    private MFXButton btnLogin;
     @FXML
-    private MFXButton exitButton;
+    private Label lblRegister;    
+    @FXML
+    private VBox vBoxToVizualizer;
+    
+    private PlayerDTO playerDTO;
+    private ObjectProperty<PlayerDTO> playerProperty  = new SimpleObjectProperty<>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ObjectProperty<PlayerDTO> playerContext =
+                (ObjectProperty<PlayerDTO>) AppContext.getInstance().get("Player");
+
+        if (playerContext == null) {
+            playerContext = new SimpleObjectProperty<>(null);
+            AppContext.getInstance().set("Player", playerContext);
+        }
+
+        playerContext.addListener((ob, ov, nv) -> load());
+
         load();
+
+        
     }    
     @Override
     public void initialize() {
     }
-    @Override
-    public void clean(){}
-    
-
+   
     @FXML
-    private void onActionLoginButton(ActionEvent event) {
-            if(!isChildState()){
-                FlowController.getInstance().goViewPane("LogInView",childProjector); 
-                showChildView();
-            } 
+    private void onActionBtnPlay(ActionEvent event) {
+        FlowController.getInstance().goViewInStage("GameMenuView", getStage());
     }
 
     @FXML
-    private void onActionRegisterButton(ActionEvent event) {
-        if(!isChildState()){
-            FlowController.getInstance().goViewPane("RegisterView", childProjector);
-            showChildView();
+    private void onActionBtnSettings(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void onActionBtnLogOut(ActionEvent event) {
+        AppContext.getInstance().set("Player", new SimpleObjectProperty<PlayerDTO>());
+        load();
+    }
+
+    @FXML
+    private void onActionBtnMoreAbout(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void onActionBtnLogin(ActionEvent event) {
+        FlowController.getInstance().goViewInPane("LogInView", vBoxToVizualizer, false);
+    }
+
+    @FXML
+    private void onMouseClickedLblRegister(MouseEvent event) {
+        FlowController.getInstance().goViewInPane("RegisterView", vBoxToVizualizer, false);
+    }
+
+   private void load(){
+        
+        playerDTO = ((ObjectProperty<PlayerDTO>) AppContext.getInstance().get("Player")).get();
+        playerProperty.set(playerDTO);
+        
+        if(playerDTO == null){
+            btnLogOut.setManaged(false);
+            btnLogOut.setVisible(false);
+            
+            btnPlay.setManaged(false);
+            btnPlay.setVisible(false);
+
+            btnSettins.setManaged(false);
+            btnSettins.setVisible(false);
+            
+            btnLogin.setManaged(true);
+            btnLogin.setVisible(true);
+            
+            lblRegister.setManaged(true);
+            lblRegister.setVisible(true);
+        }
+        else{
+            btnLogin.setManaged(false);
+            btnLogin.setVisible(false);
+
+            lblRegister.setManaged(false);
+            lblRegister.setVisible(false);
+            
+            btnLogOut.setManaged(true);
+            btnLogOut.setVisible(true);
+            
+            btnPlay.setManaged(true);
+            btnPlay.setVisible(true);
+
+            btnSettins.setManaged(true);
+            btnSettins.setVisible(true);
         }
     }
+    
+  private class ButtonCell extends ListCell<PlayerDTO> {
 
-    @FXML
-    private void onActionExitButton(ActionEvent event) {
-            if (new Mensaje().showConfirmation("Exit Game", getStage(), "Are you sure you want to leave? (╥‸╥)") )
-                this.getStage().close();
-    }
+        final Button cellButton = new Button();
+        final Label label = new Label();               
+        final HBox hbox = new HBox(10);               
+        final Region region = new Region();
 
-    @FXML
-    private void onActionInformationButton(ActionEvent event) {
-            new Mensaje().showModal(Alert.AlertType.INFORMATION,"About the game!", getStage(), "this is a project for the class programing 2 "
-                    + "in the National University of Costa Rica by the students: Isaac and Andy");
-    }
-
-    private void load(){
-        childState = false;
-        setChildBorderPane(childProjector);
-        childProjector.setVisible(false);
-        childProjector.setManaged(false);
+        public ButtonCell() {
+            HBox.setHgrow(region, Priority.ALWAYS);
+            hbox.setAlignment(Pos.CENTER_LEFT);
+            hbox.getChildren().addAll(label,region, cellButton);
+            hbox.getStyleClass().add("jfx-title-label-4");
+            
+            hbox.setPadding(new Insets(30));
+            
+            cellButton.setPrefWidth(72);
+            cellButton.getStyleClass().add("jfx-cBTrash");
+            cellButton.setOnAction((t) -> {
+               //  ACTION BUTTOM    
+            });
+            
+        }
         
-        registerButton.setText("");
-        loginButton.setText("");
-        informationButton.setText("");
-        exitButton.setText("");
 
+            @Override
+             protected void updateItem(PlayerDTO player, boolean empty) {      
+                 super.updateItem(player, empty);
+                 
+                 if(empty || player == null){
+                     setText(null);
+                     setGraphic(null);
+                 }
+                 
+                 else{
+                     String name = player.getName() != null ? player.getName() : "NO NAME";
+                     
+                     String text = name.toUpperCase() + "\t Player Name : " + player.getName() ;
+
+                     label.setText(text);
+                     setGraphic(hbox);
+                 }
+             }
+    
     }
 }

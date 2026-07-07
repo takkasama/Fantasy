@@ -6,27 +6,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="480.0" prefWidth="850.0" styleClass="jfx-field-game-background" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.fantasydefender.controller.GameController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="480.0" prefWidth="850.0" styleClass="jfx-field-game-background" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.fantasydefender.controller.GameController">
    <children>
-      <BorderPane fx:id="childProjector" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="480.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="480.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" BorderPane.alignment="CENTER" />
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox fx:id="vbPause" alignment="CENTER" prefHeight="309.0" prefWidth="640.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                           <children>
+                              <MFXButton fx:id="btnContinue" onAction="#onActionBtnContinue" onKeyPressed="#onKeyPressedBtnContinue" prefHeight="50.0" prefWidth="150.0" text="Continue" />
+                              <MFXButton fx:id="btnMenu" onAction="#onActionBtnMenu" prefHeight="50.0" prefWidth="150.0" text="Menu" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                           <children>
+                              <MFXButton fx:id="btnNextLevel" onAction="#onActionBtnNextLevel" prefHeight="50.0" prefWidth="150.0" text="Next Level" />
+                              <MFXButton fx:id="btnRetry" onAction="#onActionBtnRetry" prefHeight="50.0" prefWidth="150.0" text="Retry" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children></VBox>
          </center>
-         <left>
-            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="105.0" BorderPane.alignment="CENTER" />
-         </left>
-         <right>
-            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="105.0" BorderPane.alignment="CENTER" />
-         </right>
       </BorderPane>
       <Canvas fx:id="gameCanvas" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="850.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="lblWaveNumber" alignment="CENTER" prefHeight="22.0" prefWidth="420.0" styleClass="jfx-title-label-3" text="WaveNumber" />
-            <MFXButton fx:id="pauseButton" onAction="#onActionPauseButton" prefHeight="34.0" prefWidth="100.0" styleClass="jfx-cBPause" />
+            <MFXButton fx:id="btnPause" onAction="#onActionBtnPause" onKeyPressed="#onKeyPressedBtnPause" prefHeight="34.0" prefWidth="100.0" styleClass="jfx-cBPause" text="Pause" />
          </children>
       </HBox>
    </children>

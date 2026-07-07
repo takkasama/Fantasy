@@ -14,8 +14,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import cr.ac.una.fantasydefender.util.childViewInterface;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -24,67 +22,85 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author andys
  */
-public class LogInController extends Controller implements Initializable, childViewInterface {
+public class LogInController extends Controller implements Initializable {
 
-    @FXML
-    private MFXTextField txfUserName;
-    @FXML
-    private MFXPasswordField pwfPassword;
-    @FXML
-    private MFXButton cancelButton;
-    @FXML
-    private MFXButton logInButton;
-    @FXML
-    private BorderPane controlsBorderPane;
     @FXML
     private AnchorPane root;
-    
-
+    @FXML
+    private MFXTextField txtUserName;
+    @FXML
+    private MFXPasswordField txtPassword;
+    @FXML
+    private MFXButton btnEnter;
+    @FXML
+    private MFXButton btnCancel;
     
     private List<Node> required = new ArrayList<>();
     private boolean isSessionValid = false;  
     
-    //-------------------------------------------------------------------------------------------------------------------------------------------
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cancelButton.setText("");
-        logInButton.setText("");
-        txfUserName.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
-        pwfPassword.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(255));
+
         indicateRequired();
+        
+        load();
     }    
-    //-------------------------------------------------------------------------------------------------------------------------------------------
     @Override
     public void initialize() {
+        setNombreVista("Login User");
     }
-    //-------------------------------------------------------------------------------------------------------------------------------------------
-    @Override
-    public void clean() {
-        txfUserName.clear();
-        pwfPassword.clear();
-    }
-    
-    @FXML
-    private void onActionLogInButton(ActionEvent event) {
-        login();
-        if(isSessionValid) FlowController.getInstance().goMain("GameMenu");
+    private void load(){
+        txtUserName.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
+        txtPassword.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(255));
+
+        cleanFields();
     }
 
     @FXML
-    private void onActionCancelButton(ActionEvent event) {
-        clean();
-        getParent().hideChildView();
+    private void onkeyPressedTxtUserName(KeyEvent event) {
+        onActionBtnEnter(null);
+    }
+
+    @FXML
+    private void onKeyPressedTxtPassword(KeyEvent event) {
+        onActionBtnEnter(null);
+    }
+
+    @FXML
+    private void onActionBtnEnter(ActionEvent event) {
+        login();
+        
+        if(!isSessionValid) return;
+       cleanFields();
+        FlowController.getInstance().goMain();
+       
+    }
+    @FXML
+    private void onActionBtnCancel(ActionEvent event) {
+        cleanFields();
+        FlowController.getInstance().goViewInPane("LogInView", null, true);
     }
     
+    private void cleanFields() {
+        txtUserName.clear();
+        txtPassword.clear();
+    }
     
     public String validateRequired() {
         Boolean valid = true;
@@ -126,12 +142,12 @@ public class LogInController extends Controller implements Initializable, childV
             return "Required fields or fields with formatting problems [" + invalid + "].";
         }
     }
-    //-------------------------------------------------------------------------------------------------------------------------------------------
+    
     public void indicateRequired(){
         required.clear();
-        required.addAll(Arrays.asList(txfUserName, pwfPassword));
+        required.addAll(Arrays.asList(txtUserName, txtPassword));
     }
-    //------------------------------------------------------------------------------------------------------------------------------------------- 
+
     private void login(){
         String invalids = validateRequired();
         try{
@@ -139,17 +155,18 @@ public class LogInController extends Controller implements Initializable, childV
                 new Mensaje().showModal(Alert.AlertType.ERROR, "Login user", getStage(), invalids);
             else{
                 PlayerService userService = new PlayerService();
-                Respuesta res = userService.getPlayer(txfUserName.getText());
+                Respuesta res = userService.getPlayer(txtUserName.getText());
                 
                 if(res.getEstado()){
                     validateRequired();
                     PlayerDTO player = (PlayerDTO) res.getResultado("Player");
-                    if(!player.getPassword().equals(pwfPassword.getText())){
+                    if(!player.getPassword().equals(txtPassword.getText())){
                          new Mensaje().showModal(Alert.AlertType.ERROR, "Login Player", getStage(), "Incorrect Password");
                          isSessionValid = false;
                     } else{
                         isSessionValid = true;
-                        AppContext.getInstance().set("Player", player);    
+                        ObjectProperty<PlayerDTO> playerProperty = new SimpleObjectProperty<>(player);
+                        AppContext.getInstance().set("Player", playerProperty);
                     }
                 }
             }
@@ -159,5 +176,6 @@ public class LogInController extends Controller implements Initializable, childV
         }
 
     }
+
     
 }

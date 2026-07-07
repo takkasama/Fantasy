@@ -32,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -88,10 +89,6 @@ public class RegisterController extends Controller implements Initializable {
     public void initialize() {
         setNombreVista("Register Player");
     }
-
-     /**
-     * Actions UI
-     */
     
     @FXML
     private void onActionBtnRegister(ActionEvent event) {
@@ -114,7 +111,10 @@ public class RegisterController extends Controller implements Initializable {
                     this.player = (PlayerDTO) res.getResultado("Player");
                     this.playerProperty.set(player);
                     cleanFields();
-                    getParent().hideChildView();
+                    
+                    FlowController.getInstance().goViewInPane("LogInView", null, true);
+                    ((Stage)btnCancel.getScene().getWindow()).close();
+                    
                     new Mensaje().showModal(Alert.AlertType.INFORMATION, "SavePlayer", getStage(), " The Player was register Successefully");
                     
                 }
@@ -131,8 +131,7 @@ public class RegisterController extends Controller implements Initializable {
     @FXML
     private void onActionBtnCancel(ActionEvent event) {
         cleanFields();
-        getParent().hideChildView();
-       
+        FlowController.getInstance().goViewInPane("RegisterView", null, true);
     }
     
     @FXML
@@ -266,7 +265,7 @@ public class RegisterController extends Controller implements Initializable {
         
         // Hacer tabla en base de datos para el admin y guaadar credenciales
         
-        char pass[]  = "lksskzbcshlvfzuw".toCharArray();
+        char pass[]  = "whkncwinhaeoazgj".toCharArray();
         EmailManager.getInstance().init("takka.games.personal.use@gmail.com", pass);
         EmailManager.getInstance().sendCodeToConfirmEmail(txtEmail.getText(), code);
         
@@ -281,10 +280,7 @@ public class RegisterController extends Controller implements Initializable {
     }
 
     private void load(){
-        btnCancel.setText("");
-        btnGetCode.setText("");
-        btnRegister.setText("");
-   
+
         txtPlayerName.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
         txtEmail.delegateSetTextFormatter(Formato.getInstance().emailFormat());
         txtPassword.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(255));
