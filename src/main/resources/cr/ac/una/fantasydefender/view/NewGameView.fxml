@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.una.fantasydefender.controller.NewGameController">
+   <children>
+      <VBox layoutX="239.0" layoutY="75.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="New Game " VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="40.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <MFXTextField fx:id="txtGameName" floatingText="Game Name" onKeyPressed="#onKeyPressedTxtGameName" prefHeight="50.0" prefWidth="200.0" text="newGame">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </MFXTextField>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <MFXButton fx:id="btnEasy" onAction="#onActionBtnEasy" prefHeight="50.0" prefWidth="200.0" text="Easy" />
+                        <MFXButton fx:id="btnNormal" onAction="#onActionBtnNormal" prefHeight="50.0" prefWidth="200.0" text="Normal" />
+                        <MFXButton fx:id="btnHard" onAction="#onActionBtnHard" prefHeight="50.0" prefWidth="200.0" text="Hard" />
+                        <MFXButton fx:id="btnBrutality" onAction="#onActionBtnBrutality" prefHeight="50.0" prefWidth="200.0" text="Brutality" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

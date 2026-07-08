@@ -27,10 +27,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -63,7 +60,8 @@ public class LogInController extends Controller implements Initializable {
     }    
     @Override
     public void initialize() {
-        setNombreVista("Login User");
+        setNombreVista("Login Player");
+        cleanFields();
     }
     private void load(){
         txtUserName.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
@@ -165,8 +163,7 @@ public class LogInController extends Controller implements Initializable {
                          isSessionValid = false;
                     } else{
                         isSessionValid = true;
-                        ObjectProperty<PlayerDTO> playerProperty = new SimpleObjectProperty<>(player);
-                        AppContext.getInstance().set("Player", playerProperty);
+                        AppContext.getInstance().set("Player", player);
                     }
                 }
             }

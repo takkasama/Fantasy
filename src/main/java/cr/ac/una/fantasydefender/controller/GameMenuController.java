@@ -1,13 +1,10 @@
 package cr.ac.una.fantasydefender.controller;
 
-import cr.ac.una.fantasydefender.model.CastleDTO;
-import cr.ac.una.fantasydefender.model.CrossbowDTO;
 import cr.ac.una.fantasydefender.model.GameDTO;
 import cr.ac.una.fantasydefender.model.PlayerDTO;
-import cr.ac.una.fantasydefender.service.CastleService;
-import cr.ac.una.fantasydefender.service.CrossbowService;
 import cr.ac.una.fantasydefender.service.GameService;
 import cr.ac.una.fantasydefender.util.AppContext;
+import cr.ac.una.fantasydefender.util.DataNotifier;
 import cr.ac.una.fantasydefender.util.FlowController;
 import cr.ac.una.fantasydefender.util.Mensaje;
 import cr.ac.una.fantasydefender.util.Respuesta;
@@ -16,8 +13,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,131 +23,117 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 /**
- * FXML Controller class
  *
- * @author andys
+ * @author Takkasama
  */
-public class GameMenuController extends Controller implements Initializable {
+public class GameMenuController extends Controller implements Initializable, DataNotifier.Listener {
 
+   @FXML
+    private VBox root;
     @FXML
-    private AnchorPane root;
+    private Label lblPlayer;
     @FXML
-    private BorderPane childProjector;
+    private ListView<GameDTO> ltParties;
     @FXML
-    private VBox vBox;
+    private VBox vBoxVizualizer;
     @FXML
-    private MFXButton settingsButton;
+    private MFXButton btnPlay;
     @FXML
-    private MFXButton campaignButton;
+    private MFXButton btnUpgrade;
     @FXML
-    private MFXButton leaveButton;
+    private MFXButton btnSettings;
     @FXML
-    private MFXButton newCampaignButton;
+    private MFXButton btnMenu;
     @FXML
-    private ListView<GameDTO> campaignListView;
+    private MFXButton btnInfo;
     @FXML
-    private Label playerNameLabel;
-    @FXML
-    private Label selectedGameLabel;
-
-    private PlayerDTO player;
+    private MFXButton btnNewGame;
     
-    private GameDTO newGame;
-    private ObjectProperty<GameDTO> newGameProperty = new SimpleObjectProperty<>();
-    @FXML
-    private MFXButton upgradeButton;
+    private PlayerDTO player;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.newGame = new GameDTO();
-        this.newGameProperty.set(newGame);
-        
+        DataNotifier.subscribe(this);
         loadView();
-        loadNewGame();
     }    
     @Override
     public void initialize() {
-        setNombreVista("Game Menu");
     }
-
-    @FXML
-    private void onActionCampaignButton(ActionEvent event) {
+    
+    @Override
+    public void onDataChanged(String event) {
+        if(event.equals("newGame"))    
+            loadView();
+        if(event.equals("updateGame")){
+            GameDTO updateGame = (GameDTO) AppContext.getInstance().get("SelectedGame");
+             saveGame(updateGame);
+             loadView();
+        }
         
     }
-
+    
     @FXML
-    private void onActionSettingsButton(ActionEvent event) {
-         
-    }
-
-    @FXML
-    private void onActionLeaveButton(ActionEvent event) {
-        cleanView();
-        FlowController.getInstance().goMain();
+    private void onActionBtnNewGame(ActionEvent event) {
+        FlowController.getInstance().goViewInPane("NewGameView", vBoxVizualizer, false);
     }
 
     @FXML
-    private void onActionNewCampaignButton(ActionEvent event) {
-
+    private void onActionBtnPlay(ActionEvent event) {
+        GameDTO game = ltParties.getSelectionModel().getSelectedItem();
+        if(game == null)
+            new Mensaje().showModal(Alert.AlertType.INFORMATION, "onActionBtnPlay", getStage(), "Please Select some game");
+        else{
+            AppContext.getInstance().set("SelectedGame", game);
+            FlowController.getInstance().goViewInStage("GameView", getStage());
+        }
     }
-    
 
     @FXML
-    private void onActionUpgradeButton(ActionEvent event) {
-//                GameDTO game = campaignListView.getSelectionModel().getSelectedItem();
-//                if(game == null){
-//                    new Mensaje().showModal(Alert.AlertType.WARNING, "upgradeButton", getStage(), "Please Select a game");
-//                    return;
-//                }
-//               AppContext.getInstance().set("SelectedGame", game);
-//               FlowController.getInstance().goViewPane("UpgradeView", childProjector);
-//        
+    private void onActionBtnUpgrade(ActionEvent event) {
+        FlowController.getInstance().goViewInPane("UpgradeView", vBoxVizualizer, false);
     }
-    
-    
-        
-    private void loadNewGame(){
-        
-        newGameProperty.addListener((obs, oldValue, newValue) -> {
-            if(newValue != null){
-                  GameDTO saved = saveGame(newGame);
-                if(saved != null){
-                    player.getGamesListObservable().add(saved);
-                    campaignListView.getItems().add(saved);
-                }      
-            }
-        });
-    }
-    
-    
 
+    @FXML
+    private void onActionBtnInfo(ActionEvent event) {
+        FlowController.getInstance().goViewInPane("InfoGameView", vBoxVizualizer, false);
+    }
+
+    @FXML
+    private void onActionBtnSettings(ActionEvent event) {
+        FlowController.getInstance().goViewInPane("SettingsView", vBoxVizualizer, false);
+    }
+
+    @FXML
+    private void onActionBtnMenu(ActionEvent event) {
+        FlowController.getInstance().goViewInStage("MainView", getStage());
+    }
+    
+    @FXML
+    private void onMouseClickedLtParties(MouseEvent event) {
+        if(event.getClickCount() == 2){
+            GameDTO selectedGame = ltParties.getSelectionModel().getSelectedItem();
+            if(selectedGame == null) return;
+            
+            AppContext.getInstance().set("SelectedGame", selectedGame);
+            DataNotifier.notifyChange("newGameSelected");
+        }
+    }    
     private void loadView(){
-        
         this.player = (PlayerDTO)AppContext.getInstance().get("Player");
         
-        playerNameLabel.setText("WELCOME : " + player.getName());
-          
-         campaignListView.setItems(player.getGamesListObservable());       
-         campaignListView.setCellFactory((p) -> new ButtonCell());
-
-          campaignListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue)->{
-              if(newValue != null){
-                selectedGameLabel.setText(newValue.getName());
-              }
-          });
-
+         lblPlayer.setText("Welcome " + player.getName());
+         ltParties.setItems(player.getGamesListObservable());       
+         ltParties.setCellFactory((p) -> new ButtonCell());
     }
 
     private GameDTO saveGame(GameDTO game){
-        
         try{
             GameService gameService =  new GameService();            
             Respuesta res = gameService.saveGame(game);
@@ -170,7 +151,6 @@ public class GameMenuController extends Controller implements Initializable {
         return null;
     }
     
-
     private boolean removeGame(GameDTO game){
         try{
             if(game.getId() != null){
@@ -193,56 +173,16 @@ public class GameMenuController extends Controller implements Initializable {
         
     }
     
-    private boolean removeCrossbow(CrossbowDTO crossbowDTO){
-      try{
-                if(crossbowDTO.getId() != null){
-                    CrossbowService crossbowService = new CrossbowService();
-
-                    Respuesta res = crossbowService.removeCrossbow(crossbowDTO);
-                    if(res.getEstado()){
-                        return true;
-                    }
-                    else {
-                        new Mensaje().showModal(Alert.AlertType.ERROR, "removeCrossbow", getStage(), res.getMensaje());           
-                      }
-                }
-            }catch(Exception e){
-                Logger.getLogger(GameMenuController.class.getName()).log(Level.SEVERE, "Error to remove the Crossbow", e);
-                new Mensaje().showModal(Alert.AlertType.ERROR, "RemoveCrossbow", getStage(), "Error to remove the Crossbow");
-            }    
-      return false;
-    }
-    
-    
-    private boolean removeCastle(CastleDTO castleDTO){
-      try{
-                if(castleDTO.getId() != null){
-                    CastleService castleService = new CastleService();
-
-                    Respuesta res = castleService.removeCastle(castleDTO);
-                    if(res.getEstado()){
-                        return true;
-                    }
-                    else {
-                        new Mensaje().showModal(Alert.AlertType.ERROR, "removeCastle", getStage(), res.getMensaje());           
-                      }
-                }
-            }catch(Exception e){
-                Logger.getLogger(GameMenuController.class.getName()).log(Level.SEVERE, "Error to remove the Castle", e);
-                new Mensaje().showModal(Alert.AlertType.ERROR, "RemoveCastle", getStage(), "Error to remove the Castle");
-            }    
-      return false;
-    }
-     
-    
-    
     private void  cleanView(){
         AppContext.getInstance().set("Player", null);
-        this.campaignListView.getItems().clear();
-        this.selectedGameLabel.setText("");
-        this.playerNameLabel.setText("");
+        this.ltParties.getItems().clear();
     }
 
+
+
+
+    
+    
   private class ButtonCell extends ListCell<GameDTO> {
 
         final Button cellButton = new Button();
@@ -264,18 +204,15 @@ public class GameMenuController extends Controller implements Initializable {
                 if(!new Mensaje().showConfirmation("RemoveGame", getStage(), "Are you Shure?")) return;
                 GameDTO game = ButtonCell.this.getListView().getItems().get(ButtonCell.this.getIndex());
 
-                if(removeGame(game) && removeCastle(game.getCastle()) && removeCrossbow(game.getCrossbow())){
+                if(removeGame(game)){
                     player.getGameList().remove(game);
                     player.getGamesListObservable().remove(game);
 
                     ButtonCell.this.getListView().getItems().remove(game);                      
                 }
-                
-
             });
             
         }
-
             @Override
              protected void updateItem(GameDTO game, boolean empty) {      
                  super.updateItem(game, empty);

@@ -216,16 +216,16 @@ public class FlowController {
         stage.showAndWait();
     }
     
-    public void goViewInPane(String viewName, Pane paneToVizualize ,Boolean isToClose){
+    public void goViewInPane(String viewName, Pane paneToVizualize , boolean isToClose){
         FXMLLoader loader = getLoader(viewName);
         Controller controller = loader.getController();
+        controller.initialize();
         if(isToClose){
             controller.getParent().getChildren().clear();
             controller.setParent(null);
         }
         else{
             controller.setParent(paneToVizualize);
-            controller.initialize();
             Parent root = loader.getRoot();
             paneToVizualize.getChildren().clear();
             paneToVizualize.getChildren().addAll(root);

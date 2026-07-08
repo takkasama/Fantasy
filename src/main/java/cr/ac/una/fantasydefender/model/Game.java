@@ -1,6 +1,7 @@
 package cr.ac.una.fantasydefender.model;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -68,11 +69,11 @@ public class Game implements Serializable {
     private Long version;
     
     @JoinColumn(name = "CTL_ID", referencedColumnName = "CTL_ID")
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Castle castle;
     
     @JoinColumn(name = "CRB_ID", referencedColumnName = "CRB_ID")
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Crossbow crossbow;
     
     @JoinColumn(name = "PLY_ID", referencedColumnName = "PLY_ID")
@@ -97,8 +98,6 @@ public class Game implements Serializable {
         
         this.castle = new Castle(gameDTO.getCastle());
         this.crossbow = new Crossbow(gameDTO.getCrossbow());
-        
-        
     }
 
     public Long getId() { return id; }

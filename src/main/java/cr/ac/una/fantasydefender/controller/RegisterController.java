@@ -32,7 +32,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -88,13 +87,12 @@ public class RegisterController extends Controller implements Initializable {
     @Override
     public void initialize() {
         setNombreVista("Register Player");
+        cleanFields();
     }
     
     @FXML
     private void onActionBtnRegister(ActionEvent event) {
-        String invalids = validateRequired();
-        
-        
+        String invalids = validateRequired();        
         try{
             if(!invalids.isBlank())
                 new Mensaje().showModal(Alert.AlertType.ERROR, "Save Player", getStage(), invalids);
@@ -111,10 +109,7 @@ public class RegisterController extends Controller implements Initializable {
                     this.player = (PlayerDTO) res.getResultado("Player");
                     this.playerProperty.set(player);
                     cleanFields();
-                    
-                    FlowController.getInstance().goViewInPane("LogInView", null, true);
-                    ((Stage)btnCancel.getScene().getWindow()).close();
-                    
+                    FlowController.getInstance().goViewInPane("LogInView", null, true);                    
                     new Mensaje().showModal(Alert.AlertType.INFORMATION, "SavePlayer", getStage(), " The Player was register Successefully");
                     
                 }

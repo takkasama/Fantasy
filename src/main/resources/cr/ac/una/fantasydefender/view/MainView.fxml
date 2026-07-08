@@ -14,10 +14,8 @@
          </BorderPane.margin>
          <children>
             <MFXButton fx:id="btnLogin" onAction="#onActionBtnLogin" prefHeight="61.0" prefWidth="130.0" styleClass="jfx-cBInformation" text="Login" />
-            <MFXButton fx:id="btnLogOut" onAction="#onActionBtnLogOut" prefHeight="61.0" prefWidth="130.0" styleClass="jfx-cBInformation" text="Log Out" />
             <MFXButton fx:id="btnPlay" onAction="#onActionBtnPlay" prefHeight="61.0" prefWidth="130.0" styleClass="jfx-cBExitGameButton" text="Play" />
-            <MFXButton fx:id="btnSettins" onAction="#onActionBtnSettings" prefHeight="61.0" prefWidth="130.0" styleClass="jfx-cBInformation" text="Settings" />
-            <MFXButton fx:id="btnMoreAbout" onAction="#onActionBtnMoreAbout" prefHeight="61.0" prefWidth="130.0" styleClass="jfx-cBInformation" text="More About" />
+            <MFXButton fx:id="btnLogOut" onAction="#onActionBtnLogOut" prefHeight="61.0" prefWidth="130.0" styleClass="jfx-cBInformation" text="Log Out" />
             <Label fx:id="lblRegister" onMouseClicked="#onMouseClickedLblRegister" text="Register" />
          </children>
       </VBox>

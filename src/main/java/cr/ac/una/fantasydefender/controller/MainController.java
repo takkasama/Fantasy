@@ -2,32 +2,22 @@ package cr.ac.una.fantasydefender.controller;
 
 import cr.ac.una.fantasydefender.model.PlayerDTO;
 import cr.ac.una.fantasydefender.util.AppContext;
+import cr.ac.una.fantasydefender.util.DataNotifier;
 import cr.ac.una.fantasydefender.util.FlowController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 /**
- * FXML Controller class
  *
  * @author Takkasama
  */
@@ -37,11 +27,7 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private MFXButton btnPlay;
     @FXML
-    private MFXButton btnSettins;
-    @FXML
     private MFXButton btnLogOut;
-    @FXML
-    private MFXButton btnMoreAbout;
     @FXML
     private MFXButton btnLogin;
     @FXML
@@ -54,43 +40,26 @@ public class MainController extends Controller implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ObjectProperty<PlayerDTO> playerContext =
-                (ObjectProperty<PlayerDTO>) AppContext.getInstance().get("Player");
-
-        if (playerContext == null) {
-            playerContext = new SimpleObjectProperty<>(null);
-            AppContext.getInstance().set("Player", playerContext);
-        }
-
-        playerContext.addListener((ob, ov, nv) -> load());
-
-        load();
-
-        
+        load();   
     }    
     @Override
     public void initialize() {
+        getStage().setResizable(false);
     }
    
+    
+    /**
+     *  ACTIONS 
+     */
     @FXML
     private void onActionBtnPlay(ActionEvent event) {
         FlowController.getInstance().goViewInStage("GameMenuView", getStage());
     }
 
     @FXML
-    private void onActionBtnSettings(ActionEvent event) {
-        
-    }
-
-    @FXML
     private void onActionBtnLogOut(ActionEvent event) {
-        AppContext.getInstance().set("Player", new SimpleObjectProperty<PlayerDTO>());
+        AppContext.getInstance().set("Player", null);
         load();
-    }
-
-    @FXML
-    private void onActionBtnMoreAbout(ActionEvent event) {
-        
     }
 
     @FXML
@@ -101,11 +70,10 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private void onMouseClickedLblRegister(MouseEvent event) {
         FlowController.getInstance().goViewInPane("RegisterView", vBoxToVizualizer, false);
-    }
-
-   private void load(){
-        
-        playerDTO = ((ObjectProperty<PlayerDTO>) AppContext.getInstance().get("Player")).get();
+    }   
+    
+    private void load(){
+        playerDTO = (PlayerDTO) AppContext.getInstance().get("Player");
         playerProperty.set(playerDTO);
         
         if(playerDTO == null){
@@ -114,9 +82,6 @@ public class MainController extends Controller implements Initializable {
             
             btnPlay.setManaged(false);
             btnPlay.setVisible(false);
-
-            btnSettins.setManaged(false);
-            btnSettins.setVisible(false);
             
             btnLogin.setManaged(true);
             btnLogin.setVisible(true);
@@ -136,54 +101,19 @@ public class MainController extends Controller implements Initializable {
             
             btnPlay.setManaged(true);
             btnPlay.setVisible(true);
-
-            btnSettins.setManaged(true);
-            btnSettins.setVisible(true);
         }
-    }
+    }    
     
-  private class ButtonCell extends ListCell<PlayerDTO> {
+    private void listen(){
+         ObjectProperty<PlayerDTO> playerContext =
+                        (ObjectProperty<PlayerDTO>) AppContext.getInstance().get("Player");
 
-        final Button cellButton = new Button();
-        final Label label = new Label();               
-        final HBox hbox = new HBox(10);               
-        final Region region = new Region();
+                if (playerContext == null) {
+                    playerContext = new SimpleObjectProperty<>(null);
+                    AppContext.getInstance().set("Player", playerContext);
+                }
 
-        public ButtonCell() {
-            HBox.setHgrow(region, Priority.ALWAYS);
-            hbox.setAlignment(Pos.CENTER_LEFT);
-            hbox.getChildren().addAll(label,region, cellButton);
-            hbox.getStyleClass().add("jfx-title-label-4");
+                playerContext.addListener((ob, ov, nv) -> load());
             
-            hbox.setPadding(new Insets(30));
-            
-            cellButton.setPrefWidth(72);
-            cellButton.getStyleClass().add("jfx-cBTrash");
-            cellButton.setOnAction((t) -> {
-               //  ACTION BUTTOM    
-            });
-            
-        }
-        
-
-            @Override
-             protected void updateItem(PlayerDTO player, boolean empty) {      
-                 super.updateItem(player, empty);
-                 
-                 if(empty || player == null){
-                     setText(null);
-                     setGraphic(null);
-                 }
-                 
-                 else{
-                     String name = player.getName() != null ? player.getName() : "NO NAME";
-                     
-                     String text = name.toUpperCase() + "\t Player Name : " + player.getName() ;
-
-                     label.setText(text);
-                     setGraphic(hbox);
-                 }
-             }
-    
     }
 }
