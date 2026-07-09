@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXSlider?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.una.fantasydefender.controller.SettingsGeneralController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.fantasydefender.controller.SettingsGeneralController">
    <children>
-      <Label layoutX="232.0" layoutY="221.0" text="General Setggins" />
+      <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="GENERAL " VBox.vgrow="ALWAYS" />
+            <Separator prefWidth="200.0" />
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Global Volume" />
+            <MFXSlider fx:id="slGlobalVolume" />
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text=" Sounds Effect Volume" />
+            <MFXSlider fx:id="slSoundsEffectVolume" />
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Music Volume" />
+            <MFXSlider fx:id="slMusicVolume" />
+            <MFXRadioButton fx:id="rdFullscreen" text="FullScreen" />
+         </children>
+         <padding>
+            <Insets top="40.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>
