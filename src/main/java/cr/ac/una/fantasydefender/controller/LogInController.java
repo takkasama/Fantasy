@@ -22,8 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -32,7 +30,7 @@ import javafx.scene.input.KeyEvent;
 /**
  * FXML Controller class
  *
- * @author andys
+ * @author takkasama
  */
 public class LogInController extends Controller implements Initializable {
 
@@ -165,7 +163,9 @@ public class LogInController extends Controller implements Initializable {
                         isSessionValid = true;
                         AppContext.getInstance().set("Player", player);
                     }
-                }
+                }else
+                    new Mensaje().showModal(Alert.AlertType.WARNING, "Login", getStage(), "The Nane User does not Exist");
+                
             }
           }catch(Exception ex){
             Logger.getLogger(LogInController.class.getName()).log(Level.SEVERE, "Invalid Player To Login", ex);

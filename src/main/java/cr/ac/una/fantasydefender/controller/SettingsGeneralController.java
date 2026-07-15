@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
 
 /**
  *
@@ -27,11 +29,20 @@ public class SettingsGeneralController  extends Controller implements Initializa
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        rdFullscreen.selectedProperty().addListener((observable, oldValue, newValue) -> {
+           if(newValue){
+               ((Stage)(getParent().getScene().getWindow())).setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+               ((Stage)(getParent().getScene().getWindow())).setFullScreen(true);
+           }
+           else{
+               ((Stage)(getParent().getScene().getWindow())).setFullScreen(false);
+        }
+        });
     }    
 
     @Override
     public void initialize() {
+        
     }
     
 }

@@ -30,8 +30,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -69,6 +72,10 @@ public class RegisterController extends Controller implements Initializable {
     
     private final static int COOLDOWN_SECONDS = 30;
     private String currentCodeRegister;
+    @FXML
+    private ImageView imgAvatar;
+    @FXML
+    private Label lblAddAvatar;
 
 
     
@@ -113,7 +120,7 @@ public class RegisterController extends Controller implements Initializable {
                     new Mensaje().showModal(Alert.AlertType.INFORMATION, "SavePlayer", getStage(), " The Player was register Successefully");
                     
                 }
-                else new Mensaje().showModal(Alert.AlertType.NONE, "Player User", getStage(), res.getMensajeInterno());
+                else new Mensaje().showModal(Alert.AlertType.WARNING, "Player User", getStage(), res.getMensaje());
             }
             
         } catch (Exception e) {
@@ -132,7 +139,7 @@ public class RegisterController extends Controller implements Initializable {
     @FXML
     private void onKeyPressedTxtCode(KeyEvent event) {
         if(event.getCode().equals(event.getCode().ENTER))
-        onActionGetCode(null);
+           onActionGetCode(null);
     }
 
     @FXML
@@ -281,9 +288,17 @@ public class RegisterController extends Controller implements Initializable {
         txtPassword.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(255));
         txtConfirmPassword.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(255));
         
+        imgAvatar.setManaged(false);
+        imgAvatar.setVisible(false);
+        
         this.player = new PlayerDTO();
 
 
+    }
+
+    @FXML
+    private void onMouseClickedLblAddAvatar(MouseEvent event) {
+        FlowController.getInstance().goViewInWindowModal("AvatarView", (Stage)(getParent().getScene().getWindow()), false);
     }
 
 

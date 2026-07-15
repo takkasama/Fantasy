@@ -38,22 +38,14 @@ public class GameController extends Controller implements Initializable {
     @FXML
     private Label lblWaveNumber;
     @FXML
-    private VBox vbPause;
-    @FXML
-    private MFXButton btnContinue;
-    @FXML
-    private MFXButton btnMenu;
-    @FXML
-    private MFXButton btnNextLevel;
-    @FXML
-    private MFXButton btnRetry;
-    @FXML
     private MFXButton btnPause;
 
     private GameManager gameManager;
     private GameDTO game = (GameDTO)AppContext.getInstance().get("SelectedGame");
     private GraphicsContext gc;
     private boolean isGameStarted;
+    @FXML
+    private VBox vBoxPause;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -179,55 +171,36 @@ public class GameController extends Controller implements Initializable {
     }
    
    private void showPauseBox(){
-       vbPause.setManaged(true);
-       vbPause.setVisible(true);
+       vBoxPause.setManaged(true);
+       vBoxPause.setVisible(true);
    }
    
    private void hidePauseBox(){
-       vbPause.setManaged(false);
-       vbPause.setVisible(false);
+       vBoxPause.setManaged(false);
+       vBoxPause.setVisible(false);
    }
    
-   private void loadPauseBox(){
-       
-       
-       if(game.getGameState() == GameDTO.GameState.PAUSED &&  game.getGameResult() == GameDTO.GameResult.NONE){
-           btnNextLevel.setManaged(false);
-       }
-        if(game.getGameState() == GameDTO.GameState.PAUSED && game.getGameResult() == GameDTO.GameResult.DEFEAT){
-            btnContinue.setManaged(false);
-            btnNextLevel.setManaged(false);
-        }
-        if(game.getGameState() == GameDTO.GameState.PAUSED && game.getGameResult() == GameDTO.GameResult.VICTORY){
-            btnContinue.setManaged(false);
-        }   
-   }
 
-    @FXML
     private void onKeyPressedBtnContinue(KeyEvent event) {
         if(event.getCode() == KeyCode.ESCAPE)
             onActionBtnContinue(null);
     }
 
-    @FXML
     private void onActionBtnContinue(ActionEvent event) {
         game.setGameState(GameDTO.GameState.ACTIVE);
         hidePauseBox();
     }
 
-    @FXML
     private void onActionBtnMenu(ActionEvent event) {
          game.setGameState(GameDTO.GameState.EXITING);
          hidePauseBox();
     }
 
-    @FXML
     private void onActionBtnNextLevel(ActionEvent event) {
         game.setGameState(GameDTO.GameState.NEXT_LEVEL);
         hidePauseBox();
     }
 
-    @FXML
     private void onActionBtnRetry(ActionEvent event) {
         game.setGameState(GameDTO.GameState.RESTARTED);
         hidePauseBox();
@@ -241,7 +214,9 @@ public class GameController extends Controller implements Initializable {
 
     @FXML
     private void onActionBtnPause(ActionEvent event) {
+        game.setGameState(GameDTO.GameState.PAUSED);
         showPauseBox();
+        FlowController.getInstance().goViewInPane("PauseView", vBoxPause, false);
     }
     
 }

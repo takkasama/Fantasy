@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.una.fantasydefender.controller.PauseController">
+   <children>
+      <VBox alignment="CENTER" layoutX="239.0" layoutY="148.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <MFXButton fx:id="btnContinue" onAction="#onActionBtnMenu" text="Continue" />
+                  <MFXButton fx:id="bntRetry" onAction="#onActionBtnRetry" text="Retry" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <MFXButton fx:id="btnNextLevel" onAction="#onActionBtnNextLevel" text="NextLevel" />
+                  <MFXButton fx:id="btnMenu" onAction="#onActionBtnMenu" text="Menu" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

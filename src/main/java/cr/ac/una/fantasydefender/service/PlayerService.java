@@ -49,10 +49,10 @@ public class PlayerService {
             return new Respuesta(true ," ", " ", "Player", playerDTO);
             
         } catch (NoResultException ex) {
-            return new Respuesta(false, "The player with the indicated email or name does not exist.", "getPlayer NoResulExeption");
+            return new Respuesta(false, "The player with the indicated email or name does not exist.", "NoResulExeption");
         } catch (NonUniqueResultException ex) {
             Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, "An error occurred while querying the Player.", ex);
-            return new Respuesta(false, "An error occurred while querying the Player.", "getPlayer NonUniqueResultException");
+            return new Respuesta(false, "An error occurred while querying the Player.", "NonUniqueResultException");
         } catch (Exception ex) {
             Logger.getLogger(PlayerService.class.getName()).log(Level.SEVERE, "Error to getting the player", ex);
             return new Respuesta(false, "Error to get the Player.", "getPlayer " + ex.getMessage());
@@ -75,10 +75,9 @@ public class PlayerService {
                 player.update(playerDTO);
                 player = em.merge(player);
                 
-            }else{
+            }else
                 player = new Player(playerDTO);
-                em.persist(player);
-            }
+            
             et.commit();
             return new Respuesta(true, "", "", "savePlayer", new PlayerDTO(player));
             

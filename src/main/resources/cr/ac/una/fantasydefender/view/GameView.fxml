@@ -14,22 +14,7 @@
          <center>
             <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox fx:id="vbPause" alignment="CENTER" prefHeight="309.0" prefWidth="640.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                           <children>
-                              <MFXButton fx:id="btnContinue" onAction="#onActionBtnContinue" onKeyPressed="#onKeyPressedBtnContinue" prefHeight="50.0" prefWidth="150.0" text="Continue" />
-                              <MFXButton fx:id="btnMenu" onAction="#onActionBtnMenu" prefHeight="50.0" prefWidth="150.0" text="Menu" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                           <children>
-                              <MFXButton fx:id="btnNextLevel" onAction="#onActionBtnNextLevel" prefHeight="50.0" prefWidth="150.0" text="Next Level" />
-                              <MFXButton fx:id="btnRetry" onAction="#onActionBtnRetry" prefHeight="50.0" prefWidth="150.0" text="Retry" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <VBox fx:id="vBoxPause" alignment="CENTER" prefHeight="309.0" prefWidth="640.0" />
                </children></VBox>
          </center>
       </BorderPane>

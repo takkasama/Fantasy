@@ -57,6 +57,12 @@ public class GameMenuController extends Controller implements Initializable, Dat
     private MFXButton btnNewGame;
     
     private PlayerDTO player;
+    @FXML
+    private MFXButton btnHide;
+    private Label lblParties;
+    private boolean isHide;
+    @FXML
+    private VBox vBoxParites;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -125,8 +131,27 @@ public class GameMenuController extends Controller implements Initializable, Dat
             DataNotifier.notifyChange("newGameSelected");
         }
     }    
+    
+    @FXML
+    private void onActionBtnHide(ActionEvent event) {
+        if(!isHide){
+            vBoxParites.setManaged(isHide);
+            vBoxParites.setVisible(isHide);
+            
+            isHide = !isHide;
+        }else{
+            vBoxParites.setManaged(isHide);
+            vBoxParites.setVisible(isHide);
+            
+            isHide = !isHide;
+        }
+    }
+
+
+    
     private void loadView(){
         this.player = (PlayerDTO)AppContext.getInstance().get("Player");
+        this.isHide = false; 
         
          lblPlayer.setText("Welcome " + player.getName());
          ltParties.setItems(player.getGamesListObservable());       
@@ -179,24 +204,21 @@ public class GameMenuController extends Controller implements Initializable, Dat
     }
 
 
-
-
     
     
   private class ButtonCell extends ListCell<GameDTO> {
 
         final Button cellButton = new Button();
         final Label label = new Label();               
-        final HBox hbox = new HBox(10);               
-        final Region region = new Region();
+        final VBox vBox = new VBox(10);               
 
         public ButtonCell() {
-            HBox.setHgrow(region, Priority.ALWAYS);
-            hbox.setAlignment(Pos.CENTER_LEFT);
-            hbox.getChildren().addAll(label,region, cellButton);
-            hbox.getStyleClass().add("jfx-title-label-4");
+           
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(label, cellButton);
+            vBox.getStyleClass().add("jfx-title-label-4");
             
-            hbox.setPadding(new Insets(30));
+            vBox.setPadding(new Insets(30));
             
             cellButton.setPrefWidth(72);
             cellButton.getStyleClass().add("jfx-cBTrash");
@@ -224,19 +246,11 @@ public class GameMenuController extends Controller implements Initializable, Dat
                  
                  else{
                      String name = game.getName() != null ? game.getName() : "NO NAME";
-                     String difficultyName;
-                     if(GameDTO.getEASY_DIFFICULTY() == game.getDifficulty()) 
-                         difficultyName = "EASY";
-                     else if(GameDTO.getHARD_DIFFICULTY() == game.getDifficulty()) 
-                         difficultyName = "HARD";
-                     else if(GameDTO.getBRUTALITY_DIFFICULTY() == game.getDifficulty()) 
-                         difficultyName = "BRUTALITY";
-                     else
-                          difficultyName = "NORMAL";
-                     String text = name.toUpperCase().toUpperCase() + " \n Difficulty : "  + difficultyName + "\t Points : " +game.getPoints() + "\t Level : " + game.getLevel() ;
+     
+                     String text = name.toUpperCase().toUpperCase() + "\n Level : " + game.getLevel() + "" ;
 
                      label.setText(text);
-                     setGraphic(hbox);
+                     setGraphic(vBox);
                  }
              }
     
